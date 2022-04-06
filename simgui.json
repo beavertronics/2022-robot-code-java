@@ -39,9 +39,24 @@
       "/LiveWindow/DriveSubSystem": "Subsystem",
       "/LiveWindow/DriveSubSystem/Gyro": "Gyro",
       "/LiveWindow/ShooterSubSystem": "Subsystem",
+      "/LiveWindow/ShooterSubSystem/IndexerMotor": "Motor Controller",
+      "/LiveWindow/ShooterSubSystem/IntakerMotor": "Motor Controller",
+      "/LiveWindow/ShooterSubSystem/ShooterMotor": "Motor Controller",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/SmartDashboard/DriveSubSystem": "Subsystem"
+    }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      "Ungrouped": {
+        "Scheduler": {
+          "open": true
+        },
+        "open": true
+      }
     }
   }
 }

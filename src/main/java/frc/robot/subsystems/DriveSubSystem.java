@@ -25,6 +25,8 @@ public class DriveSubSystem extends SubsystemBase {
 
   private final DifferentialDrive M_Drive = new DifferentialDrive(M_LeftMotor,M_RightMotor);
 
+  
+
 
   private final AnalogGyro m_gyro = new AnalogGyro(1);
 
@@ -50,6 +52,10 @@ addChild("Gyro", m_gyro);
 
 public void drive(double left, double right){
   M_Drive.tankDrive(left, right);
+}
+
+public void arcadeDrive(double speed, double rotation){
+  M_Drive.arcadeDrive(speed, rotation);
 }
 
 public double getHeading() {

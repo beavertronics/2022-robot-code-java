@@ -18,14 +18,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 //subsystems
 import frc.robot.subsystems.DriveSubSystem;
+import frc.robot.subsystems.Lemonlight;
 import frc.robot.subsystems.ShooterSubSystem;
 // important shit to get working
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import org.photonvision.PhotonCamera;
+import edu.wpi.first.math.controller.PIDController;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -36,12 +40,20 @@ public class RobotContainer {
   //robots subsystems and commands get defined here
   private final DriveSubSystem m_Drive = new DriveSubSystem();
   private final ShooterSubSystem m_ShooterSubSystem = new ShooterSubSystem();
+  private final Lemonlight m_Lemonlight = new Lemonlight("photonvison");
 
   // init controllers here
   private final Joystick m_leftJoystick = new Joystick(1);
   private final Joystick m_rightJoystick = new Joystick(2);
   private final XboxController m_XboxController = new XboxController(3); 
+    // PID constants should be tuned per robot
+    final double LINEAR_P = 0.1;
+    final double LINEAR_D = 0.0;
+    PIDController forwardController = new PIDController(LINEAR_P, 0, LINEAR_D);
 
+    final double ANGULAR_P = 0.1;
+    final double ANGULAR_D = 0.0;
+    PIDController turnController = new PIDController(ANGULAR_P, 0, ANGULAR_D);
 
   private final Command m_autonomousCommand =
       new RunCommand(() -> m_Drive.drive(0.5, 0.5)).withTimeout(1);
@@ -61,7 +73,6 @@ public class RobotContainer {
       m_ShooterSubSystem.setDefaultCommand(
         new RunCommand(m_ShooterSubSystem::stop, m_ShooterSubSystem)
         );
-     
       
 
 
@@ -85,8 +96,22 @@ new JoystickButton(m_XboxController, Button.kB.value)
 new JoystickButton(m_XboxController, Button.kX.value)
 .whenHeld(new RunCommand(m_ShooterSubSystem::IntakeReversed, m_ShooterSubSystem));
 
-new JoystickButton(m_XboxController, Button.kY.value)
+new JoystickButton(m_XboxController, Button.kStart.value)
 .whenHeld(new RunCommand(m_ShooterSubSystem::Unjam, m_ShooterSubSystem));
+
+
+double forwards = m_leftJoystick.getY();
+
+double rotationSpeed = m_Lemonlight.getHorizontalOffset();
+new JoystickButton(m_XboxController, Button.kY.value)
+.whenHeld(new RunCommand(() ->m_Drive.arcadeDrive(forwards, rotationSpeed), m_Drive));
+
+
+
+
+
+
+
 
 }
   /**

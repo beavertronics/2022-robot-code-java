@@ -99,11 +99,9 @@
     {
       "guid": "Keyboard1"
     },
+    {},
     {
       "guid": "Keyboard0"
-    },
-    {
-      "guid": "Keyboard2"
     }
   ]
 }
